@@ -1,0 +1,18 @@
+.calc-price__container{
+  margin-top: 20px;
+}
+.products-detail__container{
+  margin: 10px 0;
+}
+.input-group{
+  &+&{
+    margin-top: 10px;
+  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .inner-label{
+    width: 150px;
+    margin: 0;
+  }
+}

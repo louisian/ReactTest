@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route,withRouter} from 'react-router-dom';
+import {Redirect,Route,withRouter} from 'react-router-dom';
 import './App.css';
 import {Menu, Icon} from 'antd';
 import Tool from './views/tool/index.js'
@@ -14,7 +14,7 @@ class App extends Component {
 
   render() {
 	return (
-	  <div>
+	  <div className="container-div">
 		<Menu
 		  className="header-menu"
 		  onClick={this.handleClick}
@@ -28,7 +28,8 @@ class App extends Component {
 		  </Menu.Item>
 
 		</Menu>
-		<div className="container">
+		<div className="app-container">
+		  <Redirect to="/tool"/>
 		  <Route path="/tool" component={Tool}></Route>
 		</div>
 	  </div>

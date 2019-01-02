@@ -34,3 +34,10 @@
     transform: rotate(360deg);
   }
 }
+.container{
+  /*height: 100%;*/
+}
+.app-container{
+
+  height: 100%;
+}

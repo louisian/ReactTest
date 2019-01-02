@@ -1,0 +1,17 @@
+.product-detail__container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  & + &{
+    margin-top: 5px;
+  }
+  .lock-switch{
+
+  }
+  .price-input{
+    margin: 0 5px;
+  }
+  .num-input{
+
+  }
+}

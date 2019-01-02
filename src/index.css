@@ -6,9 +6,30 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+#root{
+  /*min-height: 100vh;*/
+}
+.container-div{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.inner-container__div{
+  height: 100%;
+}
+.s-inner-container{
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  padding: 0 20px;
 }
