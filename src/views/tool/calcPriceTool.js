@@ -29,6 +29,24 @@ class CalcPriceTool extends Component {
   }
 
   render() {
+	const expandedRowRender = (record) => {
+	  console.log('record',record)
+	  const Tcolumns = [
+		{ title: '价格', dataIndex: 'price', key: 'price' },
+		{ title: '折后价', dataIndex: 'discountPrice', key: 'discountPrice' },
+		{ title: '数量', key: 'num',dataIndex:'num'},
+		// { title: 'Upgrade Status', dataIndex: 'upgradeNum', key: 'upgradeNum' },
+	  ];
+
+
+	  return (
+		<Table
+		  columns={Tcolumns}
+		  dataSource={record.priceListArray}
+		  pagination={false}
+		/>
+	  );
+	};
 	const columns = [
 	  {
 		title: 'id',
@@ -70,6 +88,23 @@ class CalcPriceTool extends Component {
 	  }
 
 	]
+	const rstColumns=[
+	  {
+		title: '总价',
+		dataIndex: 'total',
+		key: 'total'
+	  },
+	  {
+		title: '券后价',
+		dataIndex: 'discountTotal',
+		key: 'discountTotal'
+	  },
+	  {
+	    title:'折扣',
+		dataIndex:'discount',
+		key:'discount'
+	  }
+	]
 	return (
 	  <div className="calc-price__container">
 		<div className={'ticket input-group'}>
@@ -89,14 +124,20 @@ class CalcPriceTool extends Component {
 		<div className={'result'}>
 		  {/*<p>最少购买数量{this.state.productNum}</p>*/}
 		  <div>
-			列表
+			商品列表
 			<Table dataSource={this.state.productArray} columns={columns}>
 
 			</Table>
 		  </div>
-		  <p>最后总价{this.state.totalPrice}</p>
+		  <div>
+			结果列表
+			<Table expandedRowRender={expandedRowRender} dataSource={this.state.resultArray} columns={rstColumns}>
+
+			</Table>
+		  </div>
+		  {/*<p>最后总价{this.state.totalPrice}</p>*/}
 		  {/*<p>最后单价{(this.state.totalPrice / this.state.productNum).toFixed(2)}</p>*/}
-		  <p className={'error-text'}>ERROR:</p>
+		  {/*<p className={'error-text'}>ERROR:</p>*/}
 		</div>
 	  </div>
 
@@ -208,15 +249,19 @@ class CalcPriceTool extends Component {
 	  price = this.calcPrice(priceArray, numArray);
 	  console.log(price);
 	  if (price >= ticketFull) {
+	    let discount=(price-ticketMinus)/price*10;
 		resultArray.push({
 		  // numArray: numArray,
 		  priceListArray:priceArray.map((value,index)=>{
 		    return {
 		      price:value,
+			  discountPrice:value*(discount/10),
 			  num:numArray[index]
 			}
 		  }) ,
-		  total: price-ticketMinus
+		  total:price,
+		  discountTotal: price-ticketMinus,
+		  discount:discount.toFixed(2)
 		})
 	  }
 	}
