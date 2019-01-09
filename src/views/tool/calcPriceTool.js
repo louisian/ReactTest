@@ -109,7 +109,7 @@ class CalcPriceTool extends Component {
 	  <div className="calc-price__container">
 		<div className={'ticket input-group'}>
 		  <p
-			className={'inner-label'}>券满{this.state.ticketFull}减{this.state.ticketMinus},约{((this.state.ticketFull - this.state.ticketMinus) / this.state.ticketFull * 10).toFixed(2)}折</p>
+			className={'inner-label'}>券满{this.state.ticketFull}减{this.state.ticketMinus},约{((this.state.ticketFull - this.state.ticketMinus) / this.state.ticketFull * 10||0).toFixed(2)}折</p>
 		  <Input onChange={this.handleTicketChange} value={this.state.ticketString} className={'inner-input'}/>
 		</div>
 		{/*<div className={'product input-group'}>*/}
@@ -118,9 +118,13 @@ class CalcPriceTool extends Component {
 		{/*</div>*/}
 		<div className={'products-detail__container'}>
 		  {this.state.ProductDetailList}
-		  <Button onClick={this.handleAddProductDetail}>+</Button>
+
 		</div>
-		<Button onClick={this.calcTotal}>计算</Button>
+		<div className={'action-list'}>
+		  <Button onClick={this.handleAddProductDetail}>+</Button>
+		  <Button type={'primary'} className={'calc-button'} onClick={this.calcTotal}>计算</Button>
+		</div>
+
 		<div className={'result'}>
 		  {/*<p>最少购买数量{this.state.productNum}</p>*/}
 		  <div>

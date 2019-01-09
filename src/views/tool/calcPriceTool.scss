@@ -12,7 +12,14 @@
   align-items: center;
   justify-content: space-between;
   .inner-label{
-    width: 150px;
+    width: 220px;
     margin: 0;
   }
+}
+.action-list{
+  display: flex;
+  .calc-button{
+    margin-left: 5px;
+  }
+  margin-bottom: 5px;
 }
