@@ -255,7 +255,7 @@ class CalcPriceTool extends Component {
 		  priceListArray:priceArray.map((value,index)=>{
 		    return {
 		      price:value,
-			  discountPrice:value*(discount/10),
+			  discountPrice:(value*(discount/10)).toFixed(2),
 			  num:numArray[index]
 			}
 		  }) ,
