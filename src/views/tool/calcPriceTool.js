@@ -153,6 +153,9 @@ class CalcPriceTool extends Component {
 		<div className={'action-list'}>
 		  <Button loading={this.state.isLoading} onClick={this.handleAddProductDetail}>+</Button>
 		  <Button loading={this.state.isLoading} type={'primary'} className={'calc-button'} onClick={this.executeWorker}>计算</Button>
+		  <Button loading={this.state.isLoading} type={'primary'} className={'calc-button'} onClick={this.saveProduct}>保存</Button>
+		  <Button loading={this.state.isLoading} type={'primary'} className={'calc-button'} onClick={this.loadProduct}>读取</Button>
+		  <Button loading={this.state.isLoading} type={'primary'} className={'calc-button'} onClick={this.clearProduct}>清空</Button>
 		</div>
 
 		<div className={'result'}>
@@ -184,9 +187,49 @@ class CalcPriceTool extends Component {
 
 
   }
+  saveProduct=()=>{
+	  let {productArray,ticketString}=this.state;
+	  localStorage.setItem('productArray',JSON.stringify(productArray));
+	  localStorage.setItem('ticketString',ticketString);
+  }
+  loadProduct=()=>{
+	    let productArray,ticketString,productDetailList=[];
+	    ticketString=localStorage.getItem('ticketString')
+		productArray=localStorage.getItem('productArray')
+		if(ticketString&&productArray){
+		  productArray=JSON.parse(productArray);
+		  productArray.forEach(v=>{
+		    productDetailList.push(this.productDetailTemp(v.id,v))
+		  })
+		  this.handleTicketChange(null,ticketString)
+		  this.setState({
+			shouldCalc:true,
+			productArray:productArray,
+			ProductDetailList:productDetailList
+		  })
+		}
 
-  handleTicketChange = (e) => {
-	let ticketString = e.target.value;
+  }
+  clearProduct=()=>{
+	  this.setState({
+		ticketFull: 0,
+		ticketMinus: 0,
+		ticketFloat: 0,
+		ticketString: '',
+		productPrice: 0,//abandon
+		productNum: 0,//abandon
+		totalPrice: 0,
+		lockPrice: 0,
+		pid: -1,
+		isLoading:false,
+		productArray: [],
+		resultArray: [],
+		ProductDetailList: [],
+		shouldCalc: false,
+	  })
+  }
+  handleTicketChange = (e,ticketLoad) => {
+	let ticketString = (e&&e.target.value)||ticketLoad;
 	this.setState({
 	  ticketString: ticketString,
 	  ticketFull: +ticketString.split('-')[0],
@@ -195,7 +238,7 @@ class CalcPriceTool extends Component {
 
 	})
 	// this.calcPrice();
-	console.log(e.target.value)
+	// console.log(e.target.value)
   }
   executeWorker = () => {
 	let {productArray, ticketFull, ticketMinus} = this.state
@@ -334,7 +377,7 @@ class CalcPriceTool extends Component {
 	  }
 	}
 	this.setState({
-	  shouldCalc: false,
+	  // shouldCalc: false,
 	  // productArray: productArray,
 	  resultArray: resultArray.sort((a, b) => {
 		return a.total - b.total;
@@ -348,9 +391,10 @@ class CalcPriceTool extends Component {
    * @param pid
    * @returns {*}
    */
-  productDetailTemp(pid) {
+  productDetailTemp(pid,product={}) {
+    console.log(pid,product)
 	return (
-	  <ProductDetail key={pid} callback={this.handleProductDetailChange} id={pid}></ProductDetail>
+	  <ProductDetail key={pid} callback={this.handleProductDetailChange} productData={product} id={pid}></ProductDetail>
 	)
   }
 

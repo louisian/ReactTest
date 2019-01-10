@@ -71,7 +71,7 @@ calcTotal = (productArray, ticketFull, ticketMinus) => {
 	let arrayIndex = 0;
 
 	price = calcPrice(priceArray, numArray);
-	// console.log(price);
+	console.log(price);
 
 	if (price >= ticketFull) {
 	  let discount = (price - ticketMinus) / price * 10;
