@@ -198,11 +198,15 @@ class CalcPriceTool extends Component {
 		productArray=localStorage.getItem('productArray')
 		if(ticketString&&productArray){
 		  productArray=JSON.parse(productArray);
+
 		  productArray.forEach(v=>{
+			console.log(productArray,v)
 		    productDetailList.push(this.productDetailTemp(v.id,v))
+
 		  })
 		  this.handleTicketChange(null,ticketString)
 		  this.setState({
+			pid:productDetailList.length-1,
 			shouldCalc:true,
 			productArray:productArray,
 			ProductDetailList:productDetailList
@@ -261,6 +265,7 @@ class CalcPriceTool extends Component {
   }
   handleProductDetailChange = (state) => {
 	//todo debounce
+	// console.log(state)
 	let {productArray, lockPrice} = this.state, obj;
 	let singleTotal = (state.price * state.num)
 	obj = {
@@ -274,6 +279,7 @@ class CalcPriceTool extends Component {
 	lockPrice += singleTotal;
 	// console.log(obj);
 	productArray[state.id] = obj;
+	productArray=JSON.parse(JSON.stringify(productArray));
 	// console.log(productArray);
 	this.setState({
 	  productArray: productArray,
@@ -285,7 +291,9 @@ class CalcPriceTool extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
 	if (this.state.shouldCalc && !prevState.shouldCalc) {//需要进行计算
+	  // console.log('？')
 	  let {productArray, ticketFull} = this.state, ticketFloat = ticketFull;
+	  // console.log(productArray);
 	  productArray.forEach((element) => {
 		ticketFloat -= element.minNum * element.price;
 	  })
@@ -392,7 +400,7 @@ class CalcPriceTool extends Component {
    * @returns {*}
    */
   productDetailTemp(pid,product={}) {
-    console.log(pid,product)
+    // console.log(pid,product)
 	return (
 	  <ProductDetail key={pid} callback={this.handleProductDetailChange} productData={product} id={pid}></ProductDetail>
 	)

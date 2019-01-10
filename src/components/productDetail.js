@@ -9,14 +9,14 @@ class ProductDetail extends Component {
 	  id: this.props.id,
 	  // data:{},
 	  isLock: false,
-	  price: 0,
-	  num: 0
+	  price: this.props.productData.price||'',
+	  num: this.props.productData.num||0
 	}
   }
   componentWillReceiveProps(nextProps, nextContext) {
-    console.log('rev',this.props,nextProps)
+    // console.log('rev',this.props,nextProps)
   	if(Object.keys(this.props.productData).length===0&&Object.keys(nextProps.productData).length>0){
-  	  console.log('?')
+  	  // console.log('?')
   	  this.setState({
 		price:nextProps.productData.price,
 		num:nextProps.productData.num,
@@ -28,10 +28,10 @@ class ProductDetail extends Component {
 	return (
 	  <div className={'product-detail__container'}>
 		<Switch onChange={this.switchChange} className={'lock-switch'} checkedChildren="锁" unCheckedChildren="解"/>
-		<Input value={this.state.price} onChange={(e) => {
+		<Input value={this.state.price||'0'} onChange={(e) => {
 		  this.handleInputChange(e, 'price')
 		}} className={'price-input'} placeholder="单价"/>
-		<Input value={this.state.num} onChange={(e) => {
+		<Input value={this.state.num||0} onChange={(e) => {
 		  this.handleInputChange(e, 'num')
 		}} className={'num-input'} placeholder="数量"/>
 		{/*<Button className={'emit-button'} onClick={this.handleInput}>输入</Button>*/}
@@ -50,12 +50,17 @@ class ProductDetail extends Component {
   }
   handleInputChange = (e, state) => {
 	let obj = {}
-	obj[state] = state==='num'?parseInt(e.target.value)||0:parseFloat(e.target.value);
+	obj[state] = state==='num'?parseInt(e.target.value)||0:e.target.value;
 	this.setState(obj)
 
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
-	this.props.callback(this.state);
+	this.props.callback({
+	  id:this.state.id,
+	  price:parseFloat(this.state.price),
+	  num:this.state.num,
+	  isLock:this.state.isLock,
+	});
   }
 
   // handleInput = (e) => {
